@@ -8,22 +8,26 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  Future<void> nextPage() async {
+    await Future.delayed(const Duration(seconds: 2)).then(
+      (value) => context.go(Routes.loginScreen),
+    );
+  }
+
+  @override
+  void initState() {
+    nextPage();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text("This is splash screen"),
-            SizedBox(height: 10),
-            TextButton(
-              onPressed: () {
-                context.go(Routes.loginScreen);
-              },
-              child: Text("Go to login screen"),
-            ),
-          ],
+        child: Image.asset(
+          "assets/logo.png",
+          height: 80,
+          width: 300,
         ),
       ),
     );
