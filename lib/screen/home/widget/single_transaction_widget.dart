@@ -3,7 +3,10 @@ part of '../home.dart';
 class SingleTransactionWidget extends StatelessWidget {
   const SingleTransactionWidget({
     Key? key,
+    required this.transaction,
   }) : super(key: key);
+
+  final Transaction transaction;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +29,7 @@ class SingleTransactionWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Ardian Bagus",
+                  transaction.title,
                   style: Styles.roboto(
                     fontSize: 16,
                     color: Colors.black,
@@ -34,7 +37,7 @@ class SingleTransactionWidget extends StatelessWidget {
                 ),
                 const SizedBox(height: 3),
                 Text(
-                  "Transfer",
+                  transaction.description,
                   style: Styles.roboto(
                     fontSize: 14,
                     color: Colors.black,
@@ -42,7 +45,7 @@ class SingleTransactionWidget extends StatelessWidget {
                 ),
                 const SizedBox(height: 3),
                 Text(
-                  "09 Sep 2022, 13:10",
+                  transaction.date,
                   style: Styles.roboto(
                     fontSize: 12,
                     color: CustomColors.midGrey2,
@@ -55,7 +58,7 @@ class SingleTransactionWidget extends StatelessWidget {
             crossAxisAlignment: WrapCrossAlignment.end,
             children: [
               Text(
-                "+",
+                transaction.transactionType == "debit" ? "+" : "-",
                 style: Styles.roboto(
                   fontSize: 12,
                   color: Colors.black,
@@ -69,7 +72,7 @@ class SingleTransactionWidget extends StatelessWidget {
                 ),
               ),
               Text(
-                "30.000",
+                "${transaction.amount}",
                 style: Styles.roboto(
                   fontSize: 16,
                   color: Colors.black,

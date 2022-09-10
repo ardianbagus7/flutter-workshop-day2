@@ -8,11 +8,36 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final Api api = Api();
+  bool isLoading = false;
+
   TextEditingController noController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  void onLoginTap() {
-    context.go(Routes.homeScreen);
+  void onLoginTap() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    await api
+        .login(
+      mobileNumber: noController.text,
+      password: passwordController.text,
+    )
+        .then((success) {
+      if (success) {
+        CommonUtil.showSnackbar(context, title: "Login success");
+        context.go(Routes.homeScreen);
+      } else {
+        CommonUtil.showSnackbar(context, title: "Login failed");
+      }
+    }).catchError((e, s) {
+      CommonUtil.showSnackbar(context, title: e.toString());
+    });
+
+    setState(() {
+      isLoading = false;
+    });
   }
 
   @override
@@ -122,7 +147,7 @@ class _LoginScreenState extends State<LoginScreen> {
             height: 20,
           ),
           InkWell(
-            onTap: onLoginTap,
+            onTap: !isLoading ? onLoginTap : null,
             child: Container(
               height: 50,
               margin: const EdgeInsets.symmetric(
@@ -136,12 +161,16 @@ class _LoginScreenState extends State<LoginScreen> {
                 borderRadius: BorderRadius.circular(10),
               ),
               alignment: Alignment.center,
-              child: Text(
-                "Log in",
-                style: Styles.roboto(
-                  fontSize: 18,
-                ),
-              ),
+              child: (!isLoading)
+                  ? Text(
+                      "Log in",
+                      style: Styles.roboto(
+                        fontSize: 18,
+                      ),
+                    )
+                  : const CircularProgressIndicator(
+                      color: CustomColors.white,
+                    ),
             ),
           ),
           const Spacer(),

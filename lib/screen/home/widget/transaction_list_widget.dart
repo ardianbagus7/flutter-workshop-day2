@@ -3,7 +3,10 @@ part of '../home.dart';
 class TransactionListWidget extends StatelessWidget {
   const TransactionListWidget({
     Key? key,
+    required this.transactionList,
   }) : super(key: key);
+
+  final List<Transaction> transactionList;
 
   @override
   Widget build(BuildContext context) {
@@ -54,11 +57,11 @@ class TransactionListWidget extends StatelessWidget {
           // const Divider(
           //   color: CustomColors.lightGrey,
           // ),
-          SingleTransactionWidget(),
-          SingleTransactionWidget(),
-          SingleTransactionWidget(),
-          SingleTransactionWidget(),
-          SingleTransactionWidget(),
+          ...transactionList
+              .map((transaction) => SingleTransactionWidget(
+                    transaction: transaction,
+                  ))
+              .toList(),
         ],
       ),
     );
